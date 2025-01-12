@@ -1,10 +1,12 @@
 
 def main():
     book_path = "books/frankenstein.txt"
+    book_name = book_path.split(".")[0]
+    book_name = book_name.split("/")[-1]
     text = get_book_text(book_path)
     word_count = get_word_count(text)
     char_count = unique_char_counter(text)
-    text_report = create_report(word_count, char_count)
+    text_report = create_report(word_count, char_count, book_name)
     #print(f"this book contains these characters: {char_count}")
     #print(f"total words in THIS BOOK: {word_count}")
     print(text_report)
@@ -33,10 +35,10 @@ def unique_char_counter(text):
     return char_dict
 
 # create a report of words and the characters
-def create_report(words, chars_dict):
+def create_report(words, chars_dict, book_name):
     
     report = []
-    report.append("--- starting report on BOOK NAME ---")
+    report.append(f"--- starting report on the book {book_name} ---")
     report.append(f"Total words: {words} \n")
     dict_list = [{"char": key, "num": value} for key, value in chars_dict.items()]
     sorted_list = sorted(dict_list, key=lambda x: x["num"], reverse=True)
@@ -45,7 +47,7 @@ def create_report(words, chars_dict):
         char = item["char"]
         num = item["num"]
         report.append(f"The '{char}' character was found {num} times.")
-        report.append("")
+        #report.append("") <-- uncomment to improve legibility
     report.append("\n --- ending report ---")
     
     return "\n".join(report)
